@@ -1,36 +1,35 @@
-// import React, { Component } from 'react';
-// import { Navbar, NavbarBrand } from 'reactstrap';
-// import Menu from './MenuComponent';
-// import DishDetail from './DishdetailComponent';
-// import { DISHES } from '../shared/dishes';
+import React, { Component } from 'react';
+import { Navbar} from 'reactstrap';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import Home from './HomeComponent';
+import Menu from './MenuComponent';
+import Header from './HeaderComponent';
+import Footer from './FooterComponent';
+import { DISHES } from '../shared/dishes';
 
-// class Main extends Component {
+class Main extends Component {
 
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             dishes: DISHES,
-//             selectedDish: null
-//         };
-//     }
+    render() {
+        const HomePage = () => {
+            return (
+                <Home
+                />
+            );
+        }
+    return (
+            <div>
+                <Navbar dark >
+                </Navbar>
+                <Header />
+            <Switch>
+                <Route path='/home' component={HomePage} />
+                <Route exact path='/menu' component={() => <Menu dishes={DISHES} />} />
+                <Redirect to="/home" />
+            </Switch>
+                <Footer />
+            </div>
+        );
+    }
+}
 
-//     onDishSelect(dishId) {
-//         this.setState({ selectedDish: dishId });
-//     }
-
-//     render() {
-//         return (
-//             <div>
-//                 <Navbar dark color="primary">
-//                     <div className="container">
-//                         <NavbarBrand href="/">Ristorante Con Fusion</NavbarBrand>
-//                     </div>
-//                 </Navbar>
-//                 <Menu dishes={this.state.dishes} onClick={(dishId) => this.onDishSelect(dishId)} />
-//                 <DishDetail dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]} />
-//             </div>
-//         );
-//     }
-// }
-
-// export default Main;
+export default Main;
