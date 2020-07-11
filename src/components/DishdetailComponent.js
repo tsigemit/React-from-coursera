@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { Card, CardImg, CardBody, CardText, CardTitle } from 'reactstrap';
+import {
+    Card, CardImg, CardText, CardBody,
+    CardTitle, Breadcrumb, BreadcrumbItem
+} from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 class DishDetail extends Component {
 
@@ -44,16 +48,32 @@ class DishDetail extends Component {
             )
         }
     render() {
-        const dish = this.props.selectedDish
-        if (dish == null || dish.comments == null) {
+        const dish = this.props.dish
+        const comments=this.props.comments        
+        if (dish == null || comments == null) {
             return (<div></div>)
         }
         const dishDetails = this.renderDish(dish)
-        const commentInfo = this.renderComments(dish.comments)
+        const commentInfo = this.renderComments(comments)
         return (
-            <div className='row'>
-                {dishDetails}
-                {commentInfo}
+            <div className="container">
+                <div className="row">
+                    <Breadcrumb>
+
+                        <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                        <BreadcrumbItem active>{this.props.dish.name}</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>{this.props.dish.name}</h3>
+                        <hr />
+                    </div>
+                </div>
+                <div className="row">
+                     {dishDetails}
+                     &ensp;
+                    {commentInfo}
+                    
+                </div>
             </div>
         )
     }
