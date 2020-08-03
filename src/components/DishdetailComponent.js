@@ -25,20 +25,17 @@ class CommentForm extends Component {
     }
 
     handleSubmit(values) {
-        alert('Current State is: ' + JSON.stringify(values));
+        this.toggleModal();
+        this.props.addComment(this.props.dishId, values.rating, values.yourname, values.message);
     }
 
     render() {
     return (
         <React.Fragment>
             <Button className="bg-white text-dark" onClick={this.toggleModal}>
-                  <p className="fa fa-pencil fa-lg"></p>
-             Submit Comment
-            </Button>
+                  <p className="fa fa-pencil fa-lg"></p> Submit Comment </Button>
             <Modal className ="container" isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-                <ModalHeader toggle={this.handleToggle}>
-                    Submit Comment
-                </ModalHeader>
+                <ModalHeader toggle={this.handleToggle}> Submit Comment </ModalHeader>
                 <ModalBody>
                 <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
                     <Row className="form-group">
@@ -100,13 +97,12 @@ class CommentForm extends Component {
 }
 
 class DishDetail extends Component {
-
-    renderComments(comments) {
+        renderComments(comments) {
         const comm = comments.map(comment => {
             return (
                 <li key={comment.id}>
                     <p>{comment.comment}</p>
-                    <p>-- {comment.author},
+                    <p>--{comment.author},
                     {"  "}
                     {new Intl.DateTimeFormat('en-US', {
                         year: 'numeric',
@@ -123,7 +119,7 @@ class DishDetail extends Component {
                 <ul className='list-unstyled'>
                     {comm}
                 </ul>
-                <CommentForm />
+                <CommentForm dishId={this.props.dish.id} addComment={this.props.addComment} />
             </div>
         )
     }
@@ -143,7 +139,7 @@ class DishDetail extends Component {
         }
     render() {
         const dish = this.props.dish
-        const comments=this.props.comments        
+        const comments=this.props.comments               
         if (dish == null || comments == null) {
             return (<div></div>)
         }
