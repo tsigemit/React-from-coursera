@@ -4,6 +4,7 @@ import { Card, CardImg, CardText, CardBody, CardTitle,
     Button, ModalHeader, ModalBody} from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
+import { Loading } from './LoadingComponent';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -139,8 +140,27 @@ class DishDetail extends Component {
         }
     render() {
         const dish = this.props.dish
-        const comments=this.props.comments               
-        if (dish == null || comments == null) {
+        const comments=this.props.comments   
+        if (this.props.isLoading) {
+            return (
+                <div className="container">
+                    <div className="row">
+                        <Loading />
+                    </div>
+                </div>
+            );
+        }
+        else if (this.props.errMess) {
+            return (
+                <div className="container">
+                    <div className="row">
+                        <h4>{this.props.errMess}</h4>
+                    </div>
+                </div>
+            );
+        }
+                    
+       else if (dish == null || comments == null) {
             return (<div></div>)
         }
         const dishDetails = this.renderDish(dish)
