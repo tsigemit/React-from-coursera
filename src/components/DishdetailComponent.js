@@ -6,6 +6,7 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -28,7 +29,7 @@ class CommentForm extends Component {
 
     handleSubmit(values) {
         this.toggleModal();
-        this.props.postComment(this.props.dishId, values.rating, values.yourname, values.message);
+        this.props.postComment(this.props.dishId, values.rating, values.yourname, values.comment);
     }
 
     render() {
@@ -76,9 +77,9 @@ class CommentForm extends Component {
                         </Col>
                     </Row>
                     <Row className="form-group">
-                        <Label htmlFor="message" md={4}>Comment</Label>
+                        <Label htmlFor="comment" md={4}>Comment</Label>
                         <Col md={12}>
-                            <Control.textarea model=".message" id="message" name="message"
+                            <Control.textarea model=".comment" id="comment" name="comment"
                                 rows="6"
                                 className="form-control" />
                         </Col>
@@ -102,6 +103,7 @@ class DishDetail extends Component {
         renderComments(comments) {
         const comm = comments.map(comment => {
             return (
+                <Fade >
                 <li key={comment.id}>
                     <p>{comment.comment}</p>
                     <p>--{comment.author},
@@ -113,13 +115,16 @@ class DishDetail extends Component {
                     }).format(new Date(comment.date))}
                     </p>
                 </li>
+                </Fade>
             )
         })
         return (
             <div className='col-12 col-md-5 m-1'>
                 <h4> Comments </h4>
                 <ul className='list-unstyled'>
-                    {comm}
+                    <Stagger in>
+                    {comm}    
+                    </Stagger>
                 </ul>
                 <CommentForm dishId={this.props.dish.id} postComment={this.props.postComment} />
             </div>
@@ -129,6 +134,11 @@ class DishDetail extends Component {
     renderDish(dish) {
             return (
           <div className='col-12 col-md-5 m-1'>
+                    <FadeTransform
+                        in
+                        transformProps={{
+                            exitTransform: 'scale(0.5) translateY(-50%)'
+                        }}>
                     <Card>
                         <CardImg top src={baseUrl + dish.image} alt={dish.name} />
                         <CardBody>
@@ -136,6 +146,7 @@ class DishDetail extends Component {
                             <CardText>{dish.description}</CardText>
                         </CardBody>
                     </Card>
+                    </FadeTransform>
                 </div>
             )
         }
