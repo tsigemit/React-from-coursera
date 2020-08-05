@@ -39,7 +39,7 @@ function Home(props) {
         <div className="container">
             <div className="row align-items-start">
                 <div className="col-12 col-md m-1">
-                    <RenderCard item={props.promotion} isLoading={props.promoLoading} errMess={props.promoErrMess} />
+                    <RenderCard item={props.promotion} isLoading={props.promoLoading} errMess={props.dishErrMess} />
                 </div>
                 <div className="col-12 col-md m-1">
                     <RenderCard item={props.promotion} />
